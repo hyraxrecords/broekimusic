@@ -4,97 +4,120 @@
   <meta charset="UTF-8">
   <title>broeki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+
   <style>
     body {
-      font-family: system-ui, sans-serif;
-      background:#0a0a0f;
-      color:#f0f0f0;
       margin:0;
-      line-height:1.6;
+      font-family:"Manrope", sans-serif;
+      background:#ffffff;
+      color:#1a1a1a;
+      line-height:1.7;
     }
 
+    /* HEADER */
     header {
-      padding:120px 20px;
+      padding:140px 20px 160px;
       text-align:center;
-      background:linear-gradient(135deg, #1a1a2e, #16213e);
+      background:linear-gradient(135deg, #f7d9d9, #dcd6f7, #d9f7f1);
+      position:relative;
+      overflow:hidden;
     }
 
-    /* Glitch logo */
+    /* Floating pastel blobs */
+    .blob {
+      position:absolute;
+      width:300px;
+      height:300px;
+      background:radial-gradient(circle, rgba(255,255,255,0.6), rgba(255,255,255,0));
+      filter:blur(60px);
+      opacity:0.7;
+      animation:float 12s ease-in-out infinite alternate;
+    }
+
+    .blob:nth-child(1) { top:-40px; left:-60px; animation-delay:0s; }
+    .blob:nth-child(2) { bottom:-60px; right:-40px; animation-delay:3s; }
+    .blob:nth-child(3) { top:20%; right:20%; animation-delay:6s; }
+
+    @keyframes float {
+      from { transform:translateY(0px) translateX(0px); }
+      to { transform:translateY(40px) translateX(30px); }
+    }
+
+    /* LOGO TEXT (temporary until real logo arrives) */
     h1 {
       margin:0;
-      font-size:4rem;
-      letter-spacing:0.12em;
+      font-size:4.5rem;
+      letter-spacing:0.1em;
       text-transform:lowercase;
-      color:#a8b4ff;
       position:relative;
-      text-shadow:
-        0 0 8px rgba(168,180,255,0.6),
-        0 0 16px rgba(168,180,255,0.4);
-    }
-
-    h1::after {
-      content:"broeki";
-      position:absolute;
-      left:2px;
-      top:0;
-      color:#a8b4ff;
-      opacity:0.4;
-      clip-path:inset(0 0 50% 0);
-      transform:translateX(-2px);
-    }
-
-    h1::before {
-      content:"broeki";
-      position:absolute;
-      left:-2px;
-      top:0;
-      color:#a8b4ff;
-      opacity:0.4;
-      clip-path:inset(50% 0 0 0);
-      transform:translateX(2px);
+      z-index:2;
+      color:#1a1a1a;
     }
 
     h2 {
       margin-top:15px;
       font-weight:300;
-      color:#a8b4ff;
       font-size:1.3rem;
+      color:#333;
+      z-index:2;
+      position:relative;
     }
 
+    /* NAVIGATION */
+    nav {
+      margin-top:40px;
+      z-index:2;
+      position:relative;
+    }
+
+    nav a {
+      margin:0 18px;
+      text-decoration:none;
+      color:#1a1a1a;
+      font-weight:400;
+      font-size:1rem;
+      opacity:0.7;
+      transition:0.2s;
+    }
+
+    nav a:hover {
+      opacity:1;
+    }
+
+    /* SECTIONS */
     section {
       max-width:900px;
-      margin:60px auto;
+      margin:100px auto;
       padding:0 20px;
     }
 
     h3 {
-      font-size:1.8rem;
+      font-size:2rem;
       margin-bottom:10px;
-      color:#a8b4ff;
+      color:#1a1a1a;
     }
 
-    a {
-      color:#a8b4ff;
-      text-decoration:none;
+    /* ASYMMETRIC BLOCKS */
+    .block-left {
+      background:#f7d9d9;
+      padding:40px;
+      border-radius:20px;
+      margin-right:120px;
+      box-shadow:0 0 40px rgba(0,0,0,0.05);
     }
 
-    a:hover {
-      text-decoration:underline;
+    .block-right {
+      background:#dcd6f7;
+      padding:40px;
+      border-radius:20px;
+      margin-left:120px;
+      box-shadow:0 0 40px rgba(0,0,0,0.05);
     }
 
-    .links a {
-      margin-right:20px;
-      font-size:1.1rem;
-    }
-
-    iframe {
-      border:none;
-      width:100%;
-      height:380px;
-      border-radius:12px;
-      margin-top:20px;
-    }
-
+    /* GALLERY */
     .gallery {
       display:flex;
       flex-wrap:wrap;
@@ -104,25 +127,21 @@
 
     .gallery img {
       width:calc(50% - 10px);
-      border-radius:10px;
-      object-fit:cover;
+      border-radius:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.08);
+      transform:rotate(-1deg);
     }
 
-    @media (max-width:600px) {
-      .gallery img {
-        width:100%;
-      }
+    .gallery img:nth-child(even) {
+      transform:rotate(1.5deg);
     }
 
-    .show-item {
-      margin-bottom:15px;
-      padding-bottom:10px;
-      border-bottom:1px solid #1a1a2e;
-    }
-
-    .show-date {
-      font-weight:bold;
-      color:#a8b4ff;
+    /* FOOTER */
+    footer {
+      text-align:center;
+      padding:60px 20px;
+      color:#777;
+      font-size:0.9rem;
     }
   </style>
 </head>
@@ -130,92 +149,81 @@
 <body>
 
   <header>
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+
     <h1>broeki</h1>
-    <h2>indie dream-pop with a darker glow</h2>
+    <h2>indie dream‑pop with a pastel glow</h2>
+
+    <nav>
+      <a href="#about">about</a>
+      <a href="#music">music</a>
+      <a href="#shows">shows</a>
+      <a href="press.html">press</a>
+      <a href="#contact">contact</a>
+    </nav>
   </header>
 
-  <section>
-    <h3>about</h3>
-    <p>
-      broeki is a Budapest-based indie dream-pop collaboration, blending soft textures,
-      hazy melodies, and a slightly darker emotional undercurrent. 
-      Created as a space for intimate soundscapes and quiet intensity, 
-      broeki moves between warmth and shadow — always searching for the moment where
-      nostalgia meets something new.
-    </p>
+  <section id="about">
+    <div class="block-left">
+      <h3>about</h3>
+      <p>
+        broeki drifts between dream‑pop, soft electronics, and pastel‑washed melancholy.
+        The project blends hazy textures with intimate vocals, creating a world that feels
+        both fragile and surreal — like a memory you can almost touch.
+      </p>
+    </div>
   </section>
 
-  <section>
-    <h3>shows</h3>
+  <section id="music">
+    <div class="block-right">
+      <h3>music</h3>
+      <p>Listen on Spotify:</p>
 
-    <div class="show-item">
-      <span class="show-date">April 12, 2025</span> — Budapest, A38 (supporting act)
+      <iframe 
+        src="https://open.spotify.com/embed/artist/1D2uEdbO5kgI8HNL566LTo"
+        width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media">
+      </iframe>
+
+      <p style="margin-top:20px;">
+        Watch more on  
+        <a href="https://www.youtube.com/@broki-cp3is" target="_blank">YouTube</a>.
+      </p>
     </div>
-
-    <div class="show-item">
-      <span class="show-date">May 3, 2025</span> — Szimpla Kert, Budapest
-    </div>
-
-    <div class="show-item">
-      <span class="show-date">June 21, 2025</span> — Kolorádó Festival
-    </div>
-
-    <p style="margin-top:20px; opacity:0.7;">
-      (Replace these with your real or upcoming shows anytime.)
-    </p>
   </section>
 
-  <section>
-    <h3>music</h3>
-    <p>Listen to broeki on Spotify:</p>
+  <section id="shows">
+    <div class="block-left">
+      <h3>shows</h3>
 
-    <iframe 
-      src="https://open.spotify.com/embed/artist/1D2uEdbO5kgI8HNL566LTo?utm_source=generator"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-    </iframe>
-
-    <p style="margin-top:30px;">
-      Watch more on YouTube:
-      <br>
-      <a href="https://www.youtube.com/@broki-cp3is" target="_blank">youtube.com/@broki-cp3is</a>
-    </p>
+      <p><strong>April 12, 2025</strong> — Budapest, A38</p>
+      <p><strong>May 3, 2025</strong> — Szimpla Kert</p>
+      <p><strong>June 21, 2025</strong> — Kolorádó Festival</p>
+    </div>
   </section>
 
-  <section>
-    <h3>gallery</h3>
-    <p>Some moments from the world of broeki:</p>
-
+  <section id="gallery">
+    <h3 style="text-align:center;">gallery</h3>
     <div class="gallery">
-      <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d" alt="live photo placeholder">
-      <img src="https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2" alt="studio photo placeholder">
-      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4" alt="band mood placeholder">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063" alt="dreamy lights placeholder">
-    </div>
-
-    <p style="margin-top:20px; opacity:0.7;">
-      (Replace these URLs with your own photos whenever you want.)
-    </p>
-  </section>
-
-  <section>
-    <h3>press kit</h3>
-    <p>
-      Download the press kit:
-      <br>
-      <a href="press.html">press.html</a>
-    </p>
-  </section>
-
-  <section>
-    <h3>contact</h3>
-    <p>For inquiries, collaborations, or booking:</p>
-    <p><strong>email:</strong> your-email-here@example.com</p>
-
-    <div class="links">
-      <a href="https://open.spotify.com/artist/1D2uEdbO5kgI8HNL566LTo" target="_blank">Spotify</a>
-      <a href="https://www.youtube.com/@broki-cp3is" target="_blank">YouTube</a>
+      <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d">
+      <img src="https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2">
+      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4">
+      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063">
     </div>
   </section>
+
+  <section id="contact">
+    <div class="block-right">
+      <h3>contact</h3>
+      <p>For booking, press, or collaborations:</p>
+      <p><strong>your-email-here@example.com</strong></p>
+    </div>
+  </section>
+
+  <footer>
+    © broeki — all pastel dreams reserved
+  </footer>
 
 </body>
 </html>
