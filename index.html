@@ -15,13 +15,31 @@
       background:#ffffff;
       color:#1a1a1a;
       line-height:1.7;
+      overflow-x:hidden;
+    }
+
+    /* Cursor Halo */
+    .cursor-halo {
+      position:fixed;
+      top:0;
+      left:0;
+      width:40px;
+      height:40px;
+      pointer-events:none;
+      border-radius:50%;
+      background:radial-gradient(circle, #d4fff1 40%, #fff9d6 100%);
+      filter:blur(12px);
+      opacity:0.6;
+      transform:translate(-50%, -50%);
+      transition:transform 0.12s ease-out;
+      z-index:9999;
     }
 
     /* HEADER */
     header {
       padding:140px 20px 160px;
       text-align:center;
-      background:linear-gradient(135deg, #f7d9d9, #dcd6f7, #d9f7f1);
+      background:linear-gradient(135deg, #d4fff1, #fff9d6);
       position:relative;
       overflow:hidden;
     }
@@ -46,7 +64,6 @@
       to { transform:translateY(40px) translateX(30px); }
     }
 
-    /* LOGO TEXT (temporary until real logo arrives) */
     h1 {
       margin:0;
       font-size:4.5rem;
@@ -66,7 +83,6 @@
       position:relative;
     }
 
-    /* NAVIGATION */
     nav {
       margin-top:40px;
       z-index:2;
@@ -87,7 +103,7 @@
       opacity:1;
     }
 
-    /* SECTIONS */
+    /* Sections */
     section {
       max-width:900px;
       margin:100px auto;
@@ -100,43 +116,82 @@
       color:#1a1a1a;
     }
 
-    /* ASYMMETRIC BLOCKS */
-    .block-left {
-      background:#f7d9d9;
+    /* Asymmetric pastel blocks */
+    .block-left, .block-right {
       padding:40px;
       border-radius:20px;
-      margin-right:120px;
       box-shadow:0 0 40px rgba(0,0,0,0.05);
+      transform:rotate(-1deg);
+      opacity:0;
+      animation:popIn 1s ease forwards;
+    }
+
+    .block-left {
+      background:#f7d9d9;
+      margin-right:120px;
     }
 
     .block-right {
       background:#dcd6f7;
-      padding:40px;
-      border-radius:20px;
       margin-left:120px;
-      box-shadow:0 0 40px rgba(0,0,0,0.05);
     }
 
-    /* GALLERY */
-    .gallery {
+    /* Pop-in collage animation */
+    @keyframes popIn {
+      0% { opacity:0; transform:scale(0.95) rotate(-2deg) translateY(20px); }
+      100% { opacity:1; transform:scale(1) rotate(-1deg) translateY(0); }
+    }
+
+    /* Instagram Section */
+    .insta-header {
       display:flex;
-      flex-wrap:wrap;
-      gap:20px;
-      margin-top:20px;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom:20px;
+      opacity:0;
+      animation:popIn 1s ease forwards;
     }
 
-    .gallery img {
-      width:calc(50% - 10px);
+    .insta-header img {
+      width:22px;
+      height:22px;
+      opacity:0.8;
+    }
+
+    .insta-header a {
+      text-decoration:none;
+      color:#1a1a1a;
+      font-weight:600;
+      opacity:0.8;
+    }
+
+    .insta-header a:hover {
+      opacity:1;
+    }
+
+    .insta-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:20px;
+    }
+
+    .insta-grid img {
+      width:100%;
       border-radius:16px;
       box-shadow:0 10px 30px rgba(0,0,0,0.08);
+      object-fit:cover;
+      aspect-ratio:1/1;
+      transition:0.3s;
       transform:rotate(-1deg);
+      opacity:0;
+      animation:popIn 1s ease forwards;
     }
 
-    .gallery img:nth-child(even) {
-      transform:rotate(1.5deg);
+    .insta-grid img:hover {
+      transform:scale(1.03) rotate(0deg);
     }
 
-    /* FOOTER */
     footer {
       text-align:center;
       padding:60px 20px;
@@ -148,81 +203,94 @@
 
 <body>
 
-  <header>
-    <div class="blob"></div>
-    <div class="blob"></div>
-    <div class="blob"></div>
+<div class="cursor-halo"></div>
 
-    <h1>broeki</h1>
-    <h2>where chaos meets music</h2>
+<header>
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
 
-    <nav>
-      <a href="#about">about</a>
-      <a href="#music">music</a>
-      <a href="#shows">shows</a>
-      <a href="press.html">press</a>
-      <a href="#contact">contact</a>
-    </nav>
-  </header>
+  <h1>broeki</h1>
+  <h2>indie dream‑pop with a pastel glow</h2>
 
-  <section id="about">
-    <div class="block-left">
-      <h3>about</h3>
-      <p>
-        broeki drifts between dream‑pop, soft electronics, and pastel‑washed melancholy.
-        The project blends hazy textures with intimate vocals, creating a world that feels
-        both fragile and surreal — like a memory you can almost touch.
-      </p>
-    </div>
-  </section>
+  <nav>
+    <a href="#about">about</a>
+    <a href="#music">music</a>
+    <a href="#whatsup">what is going on</a>
+    <a href="press.html">press</a>
+    <a href="#contact">contact</a>
+  </nav>
+</header>
 
-  <section id="music">
-    <div class="block-right">
-      <h3>music</h3>
-      <p>Listen on Spotify:</p>
+<section id="about">
+  <div class="block-left">
+    <h3>about</h3>
+    <p>
+      broeki drifts between dream‑pop, soft electronics, and pastel‑washed melancholy.
+      The project blends hazy textures with intimate vocals, creating a world that feels
+      both fragile and surreal — like a memory you can almost touch.
+    </p>
+  </div>
+</section>
 
-      <iframe 
-        src="https://open.spotify.com/embed/artist/1D2uEdbO5kgI8HNL566LTo"
-        width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media">
-      </iframe>
+<section id="music">
+  <div class="block-right">
+    <h3>music</h3>
 
-      <p style="margin-top:20px;">
-        Watch more on  
-        <a href="https://www.youtube.com/@broki-cp3is" target="_blank">YouTube</a>.
-      </p>
-    </div>
-  </section>
+    <iframe 
+      src="https://open.spotify.com/embed/artist/1D2uEdbO5kgI8HNL566LTo"
+      width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media">
+    </iframe>
+  </div>
+</section>
 
-  <section id="shows">
-    <div class="block-left">
-      <h3>shows</h3>
+<section id="whatsup">
+  <div class="block-left">
+    <h3>what is going on</h3>
 
-      <p><strong>No shows currently, album is coming up!</p>
-      
-    </div>
-  </section>
+    <p><strong>new single coming soon</strong> — pastel dream pop in progress</p>
+    <p><strong>studio sessions</strong> — recording vocals + synth layers</p>
+    <p><strong>visual concept</strong> — building the broeki world</p>
+  </div>
+</section>
 
-  <section id="gallery">
-    <h3 style="text-align:center;">gallery</h3>
-    <div class="gallery">
-      <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d">
-      <img src="https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2">
-      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063">
-    </div>
-  </section>
+<section id="gallery">
+  <h3 style="text-align:center;">instagram</h3>
 
-  <section id="contact">
-    <div class="block-right">
-      <h3>contact</h3>
-      <p>For booking, press, or collaborations:</p>
-      <p><strong>broekimusic@gmail.com</strong></p>
-    </div>
-  </section>
+  <div class="insta-header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
+    <a href="https://www.instagram.com/broekimusic_hun/" target="_blank">@broekimusic_hun</a>
+  </div>
 
-  <footer>
-    © broeki — all pastel dreams reserved
-  </footer>
+  <div class="insta-grid">
+    <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d">
+    <img src="https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2">
+    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4">
+    <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063">
+    <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f">
+    <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2">
+  </div>
+</section>
+
+<section id="contact">
+  <div class="block-right">
+    <h3>contact</h3>
+    <p>For booking, press, or collaborations:</p>
+    <p><strong>your-email-here@example.com</strong></p>
+  </div>
+</section>
+
+<footer>
+  © broeki — pastel dreams in motion
+</footer>
+
+<script>
+  /* Cursor Halo Movement */
+  const halo = document.querySelector('.cursor-halo');
+  document.addEventListener('mousemove', (e) => {
+    halo.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+</script>
 
 </body>
 </html>
