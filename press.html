@@ -2,197 +2,578 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>broeki — press kit</title>
+  <title>BRÖKI — Press Kit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&subset=latin,latin-ext&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f0e8;
+      --acid: #a8e6b0;
+      --acid2: #e8f5a3;
+      --accent-grad: linear-gradient(120deg, #e8f5a3, #a8e6b0);
+      --grey: #1c1c1c;
+      --mid: #2e2e2e;
+      --muted: #888;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
     body {
-      margin:0;
-      font-family:"Manrope", sans-serif;
-      background:#ffffff;
-      color:#1a1a1a;
-      line-height:1.7;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
     }
 
-    /* HEADER */
-    header {
-      padding:100px 20px 120px;
-      text-align:center;
-      background:linear-gradient(135deg, #f7d9d9, #dcd6f7, #d9f7f1);
-      position:relative;
-      overflow:hidden;
+    .cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--acid);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 40px; height: 40px;
+      border: 1px solid var(--acid);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, opacity 0.3s;
+      opacity: 0.5;
     }
 
-    .blob {
-      position:absolute;
-      width:260px;
-      height:260px;
-      background:radial-gradient(circle, rgba(255,255,255,0.6), rgba(255,255,255,0));
-      filter:blur(60px);
-      opacity:0.7;
-      animation:float 12s ease-in-out infinite alternate;
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.35;
     }
 
-    .blob:nth-child(1) { top:-40px; left:-60px; animation-delay:0s; }
-    .blob:nth-child(2) { bottom:-60px; right:-40px; animation-delay:3s; }
-
-    @keyframes float {
-      from { transform:translateY(0px) translateX(0px); }
-      to { transform:translateY(40px) translateX(30px); }
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+      mix-blend-mode: difference;
     }
 
-    h1 {
-      margin:0;
-      font-size:3.5rem;
-      letter-spacing:0.1em;
-      text-transform:lowercase;
-      position:relative;
-      z-index:2;
-      color:#1a1a1a;
+    .nav-logo {
+      font-family: 'Bebas Neue', 'Arial Black', Impact, sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
     }
 
-    h2 {
-      margin-top:10px;
-      font-weight:300;
-      font-size:1.2rem;
-      color:#333;
-      z-index:2;
-      position:relative;
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
     }
 
-    /* SECTIONS */
-    section {
-      max-width:900px;
-      margin:80px auto;
-      padding:0 20px;
+    .nav-links a {
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      transition: opacity 0.2s;
     }
 
-    h3 {
-      font-size:1.8rem;
-      margin-bottom:10px;
-      color:#1a1a1a;
+    .nav-links a:hover { opacity: 1; }
+
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 80px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--mid);
     }
 
-    /* ASYMMETRIC BLOCKS */
-    .block-left {
-      background:#f7d9d9;
-      padding:40px;
-      border-radius:20px;
-      margin-right:120px;
-      box-shadow:0 0 40px rgba(0,0,0,0.05);
+    .hero-bg-text {
+      position: absolute;
+      font-family: 'Bebas Neue', 'Arial Black', Impact, sans-serif;
+      font-size: clamp(120px, 18vw, 280px);
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(168,230,176,0.06);
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 0.05em;
     }
 
-    .block-right {
-      background:#dcd6f7;
-      padding:40px;
-      border-radius:20px;
-      margin-left:120px;
-      box-shadow:0 0 40px rgba(0,0,0,0.05);
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
     }
 
-    /* GALLERY */
-    .gallery {
-      display:flex;
-      flex-wrap:wrap;
-      gap:20px;
-      margin-top:20px;
+    .hero-title {
+      font-family: 'Bebas Neue', 'Arial Black', Impact, sans-serif;
+      font-size: clamp(72px, 12vw, 180px);
+      line-height: 0.88;
+      letter-spacing: -0.01em;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
     }
 
-    .gallery img {
-      width:calc(50% - 10px);
-      border-radius:16px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.08);
-      transform:rotate(-1deg);
+    .hero-title .grad {
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .gallery img:nth-child(even) {
-      transform:rotate(1.5deg);
+    .hero-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
     }
 
-    /* FOOTER */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .marquee-wrap {
+      border-bottom: 1px solid var(--mid);
+      overflow: hidden;
+      padding: 18px 0;
+      background: var(--grey);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 60px;
+      white-space: nowrap;
+      animation: marquee 22s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-item {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .marquee-item .dot {
+      width: 6px; height: 6px;
+      background: var(--acid);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .press-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 120px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .press-block {
+      background: var(--grey);
+      padding: 64px;
+      margin-bottom: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .press-block::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px; width: 0;
+      background: linear-gradient(90deg, #e8f5a3, #a8e6b0);
+      transition: width 0.5s ease;
+    }
+
+    .press-block:hover::after { width: 100%; }
+
+    .block-num {
+      position: absolute;
+      top: 32px; right: 40px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem;
+      color: rgba(168,230,176,0.05);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .block-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .block-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      margin-bottom: 32px;
+    }
+
+    .block-body {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: #aaa;
+      max-width: 640px;
+    }
+
+    .block-body strong { color: var(--white); }
+    .block-body p + p { margin-top: 16px; }
+
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 8px;
+    }
+
+    .link-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-top: 1px solid var(--mid);
+      text-decoration: none;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      transition: color 0.2s;
+    }
+
+    .link-row:last-child { border-bottom: 1px solid var(--mid); }
+
+    .link-row::before {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 0;
+      background: linear-gradient(120deg, #e8f5a3, #a8e6b0);
+      z-index: 0;
+      transition: height 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .link-row:hover::before { height: 100%; }
+    .link-row:hover { color: var(--black); }
+    .link-row > * { position: relative; z-index: 1; }
+
+    .link-platform {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.04em;
+    }
+
+    .link-url {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      opacity: 0.5;
+    }
+
+    .link-arrow { font-size: 1.4rem; transition: transform 0.3s; }
+    .link-row:hover .link-arrow { transform: translate(5px, -5px); }
+
+    .contact-block {
+      background: linear-gradient(135deg, #e8f5a3 0%, #a8e6b0 100%);
+      padding: 80px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-block::before {
+      content: 'HI';
+      position: absolute;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 30vw;
+      color: rgba(0,0,0,0.05);
+      right: -4vw;
+      bottom: -4vw;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .contact-block .block-tag { color: rgba(0,0,0,0.4); }
+    .contact-block .block-title { color: var(--black); }
+    .contact-block .block-body { color: rgba(0,0,0,0.6); }
+    .contact-block .block-body strong { color: var(--black); }
+
+    .contact-email-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      color: var(--black);
+      text-decoration: none;
+      border: 2px solid var(--black);
+      padding: 16px 32px;
+      margin-top: 32px;
+      border-radius: 2px;
+      position: relative;
+      z-index: 1;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .contact-email-btn:hover { background: var(--black); color: #a8e6b0; }
+
+    .divider {
+      width: calc(100% - 96px);
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--mid), transparent);
+      margin: 0 48px;
+    }
+
     footer {
-      text-align:center;
-      padding:60px 20px;
-      color:#777;
-      font-size:0.9rem;
+      padding: 40px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--mid);
+      background: var(--black);
     }
 
-    a {
-      color:#1a1a1a;
-      text-decoration:none;
-      border-bottom:1px solid rgba(0,0,0,0.2);
-      padding-bottom:2px;
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      color: var(--white);
     }
 
-    a:hover {
-      opacity:0.7;
+    .footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .footer-acid {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--acid);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 0 24px 60px; }
+      .press-grid { padding: 80px 24px; }
+      .press-block { padding: 40px 28px; }
+      .contact-block { padding: 60px 28px; }
+      footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
+      .divider { width: calc(100% - 48px); margin: 0 24px; }
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <div class="blob"></div>
-    <div class="blob"></div>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-    <h1>broeki</h1>
-    <h2>press kit</h2>
-  </header>
+  <nav>
+    <a href="index.html" class="nav-logo">BR&Ouml;KI</a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#music">Music</a></li>
+      <li><a href="index.html#updates">Updates</a></li>
+      <li><a href="index.html#socials">Socials</a></li>
+      <li><a href="press.html" style="opacity:1;">Press</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-  <section>
-    <div class="block-left">
-      <h3>official bio</h3>
-      <p>
-        broeki drifts between dream‑pop, soft electronics, and pastel‑washed melancholy.
-        Their sound blends hazy textures with intimate vocals, creating a world that feels
-        both fragile and surreal — like a memory you can almost touch.
-      </p>
-      <p>
-        Formed in Budapest, broeki explores the quiet spaces between genres, crafting
-        soundscapes that shimmer with emotion and soft distortion.
-      </p>
-    </div>
+  <section class="hero">
+    <div class="hero-bg-text">PRESS</div>
+    <p class="hero-eyebrow">BR&Ouml;KI &mdash; Official Press Kit</p>
+    <h1 class="hero-title">
+      Press<br><span class="grad">Kit.</span>
+    </h1>
+    <p class="hero-sub">Bio &middot; Links &middot; Contact</p>
   </section>
 
-  <section>
-    <div class="block-right">
-      <h3>music links</h3>
-      <p><strong>Spotify:</strong><br>
-      <a href="https://open.spotify.com/artist/1D2uEdbO5kgI8HNL566LTo" target="_blank">
-        open.spotify.com/artist/1D2uEdbO5kgI8HNL566LTo
-      </a></p>
-
-      <p><strong>YouTube:</strong><br>
-      <a href="https://www.youtube.com/@broki-cp3is" target="_blank">
-        youtube.com/@broki-cp3is
-      </a></p>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item"><span class="dot"></span> official press kit <span class="dot"></span> Budapest underground <span class="dot"></span> booking &amp; press <span class="dot"></span> chaos in motion <span class="dot"></span> br&ouml;ki music <span class="dot"></span> official press kit <span class="dot"></span> Budapest underground <span class="dot"></span> booking &amp; press <span class="dot"></span> chaos in motion <span class="dot"></span> br&ouml;ki music</div>
+      <div class="marquee-item"><span class="dot"></span> official press kit <span class="dot"></span> Budapest underground <span class="dot"></span> booking &amp; press <span class="dot"></span> chaos in motion <span class="dot"></span> br&ouml;ki music <span class="dot"></span> official press kit <span class="dot"></span> Budapest underground <span class="dot"></span> booking &amp; press <span class="dot"></span> chaos in motion <span class="dot"></span> br&ouml;ki music</div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h3 style="text-align:center;">press photos</h3>
-    <div class="gallery">
-      <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d">
-      <img src="https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2">
-      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4">
-      <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063">
-    </div>
-  </section>
+  <div class="press-grid">
 
-  <section>
-    <div class="block-left">
-      <h3>contact</h3>
-      <p>For booking, press, or collaborations:</p>
-      <p><strong>your-email-here@example.com</strong></p>
+    <div class="press-block reveal">
+      <span class="block-num">01</span>
+      <span class="block-tag">Official Bio</span>
+      <h2 class="block-title">Who Is<br>Br&ouml;ki.</h2>
+      <div class="block-body">
+        <p><strong>Br&ouml;ki is something different.</strong> Started in an apartment far away and travelled through space and time just to bring you something new.</p>
+        <p>Formed in Budapest, Br&ouml;ki explores the quiet spaces between genres — crafting soundscapes that shimmer with raw energy and quiet intention. Their sound blends hazy textures with direct impact, creating a world that feels both urgent and surreal.</p>
+        <p>This isn't background music. This is for the moment right before everything changes — built on chaos, shaped by intention.</p>
+      </div>
     </div>
-  </section>
+
+    <div class="press-block reveal" style="transition-delay: 0.1s">
+      <span class="block-num">02</span>
+      <span class="block-tag">Music Links</span>
+      <h2 class="block-title">Stream<br>&amp; Follow.</h2>
+      <div class="link-list">
+        <a href="https://open.spotify.com/artist/1D2uEdbO5kgI8HNL566LTo" target="_blank" class="link-row">
+          <span class="link-platform">Spotify</span>
+          <span class="link-url">open.spotify.com/artist/1D2uEdbO5kgI8HNL566LTo</span>
+          <span class="link-arrow">&#8599;</span>
+        </a>
+        <a href="https://www.youtube.com/@broki-cp3is" target="_blank" class="link-row">
+          <span class="link-platform">YouTube</span>
+          <span class="link-url">youtube.com/@broki-cp3is</span>
+          <span class="link-arrow">&#8599;</span>
+        </a>
+        <a href="https://www.instagram.com/broekimusic_hun/" target="_blank" class="link-row">
+          <span class="link-platform">Instagram</span>
+          <span class="link-url">@broekimusic_hun</span>
+          <span class="link-arrow">&#8599;</span>
+        </a>
+        <a href="https://www.tiktok.com/@broekimusic_hun" target="_blank" class="link-row">
+          <span class="link-platform">TikTok</span>
+          <span class="link-url">@broekimusic_hun</span>
+          <span class="link-arrow">&#8599;</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="press-grid" style="padding-top: 80px; padding-bottom: 0;">
+    <div class="contact-block reveal">
+      <span class="block-num" style="color:rgba(0,0,0,0.06);">03</span>
+      <span class="block-tag">Get In Touch</span>
+      <h2 class="block-title">Let's<br>Talk.</h2>
+      <div class="block-body">
+        <p>For booking, press, or collaborations — reach out directly.</p>
+        <p><strong>broekimusic@gmail.com</strong></p>
+      </div>
+      <a class="contact-email-btn" href="mailto:broekimusic@gmail.com">
+        &#9993;&nbsp; broekimusic@gmail.com
+      </a>
+    </div>
+  </div>
 
   <footer>
-    © broeki — pastel press dreams
+    <div class="footer-logo">BR&Ouml;KI</div>
+    <div class="footer-copy">&copy; 2024 BR&Ouml;KI &mdash; ALL RIGHTS RESERVED</div>
+    <div class="footer-acid">PRESS KIT</div>
   </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '20px';
+        cursor.style.height = '20px';
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+        ring.style.opacity = '0.3';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '12px';
+        cursor.style.height = '12px';
+        ring.style.width = '40px';
+        ring.style.height = '40px';
+        ring.style.opacity = '0.5';
+      });
+    });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
+  </script>
 
 </body>
 </html>
