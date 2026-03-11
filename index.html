@@ -2,284 +2,863 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>BRÖKI</title>
+  <title>BRÖKI — where chaos meets music</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&subset=latin,latin-ext&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f0e8;
+      --acid: #a8e6b0;
+      --acid2: #e8f5a3;
+      --accent-grad: linear-gradient(120deg, #e8f5a3, #a8e6b0);
+      --red: #e8c46a;
+      --grey: #1c1c1c;
+      --mid: #2e2e2e;
+      --muted: #888;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
     body {
-      margin:0;
-      font-family:"Manrope", sans-serif;
-      background:#ffffff;
-      color:#1a1a1a;
-      line-height:1.7;
-      overflow-x:hidden;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
     }
 
-    /* HEADER */
-    header {
-      padding:140px 20px 160px;
-      text-align:center;
-      background:linear-gradient(135deg, #d4fff1, #fff9d6);
-      position:relative;
-      overflow:hidden;
+    .cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--acid);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 40px; height: 40px;
+      border: 1px solid var(--acid);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, opacity 0.3s;
+      opacity: 0.5;
     }
 
-    /* Floating pastel blobs */
-    .blob {
-      position:absolute;
-      width:300px;
-      height:300px;
-      background:radial-gradient(circle, rgba(255,255,255,0.6), rgba(255,255,255,0));
-      filter:blur(60px);
-      opacity:0.7;
-      animation:float 12s ease-in-out infinite alternate;
-    }
-
-    .blob:nth-child(1) { top:-40px; left:-60px; animation-delay:0s; }
-    .blob:nth-child(2) { bottom:-60px; right:-40px; animation-delay:3s; }
-    .blob:nth-child(3) { top:20%; right:20%; animation-delay:6s; }
-
-    @keyframes float {
-      from { transform:translateY(0px) translateX(0px); }
-      to { transform:translateY(40px) translateX(30px); }
-    }
-
-    h1 {
-      margin:0;
-      font-size:4.5rem;
-      letter-spacing:0.1em;
-      text-transform:uppercase; /* UPDATED */
-      position:relative;
-      z-index:2;
-      color:#1a1a1a;
-    }
-
-    h2 {
-      margin-top:15px;
-      font-weight:300;
-      font-size:1.3rem;
-      color:#333;
-      z-index:2;
-      position:relative;
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.35;
     }
 
     nav {
-      margin-top:40px;
-      z-index:2;
-      position:relative;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+      mix-blend-mode: difference;
     }
 
-    nav a {
-      margin:0 18px;
-      text-decoration:none;
-      color:#1a1a1a;
-      font-weight:400;
-      font-size:1rem;
-      opacity:0.7;
-      transition:0.2s;
+    .nav-logo {
+      font-family: 'Bebas Neue', 'Arial Black', Impact, sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.12em;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
     }
 
-    nav a:hover {
-      opacity:1;
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
     }
 
-    /* Sections */
-    section {
-      max-width:900px;
-      margin:100px auto;
-      padding:0 20px;
+    .nav-links a {
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      transition: opacity 0.2s;
     }
 
-    h3 {
-      font-size:2rem;
-      margin-bottom:10px;
-      color:#1a1a1a;
+    .nav-links a:hover { opacity: 1; }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0 48px;
     }
 
-    /* Grey-mint gradient tiles with bold offsets */
-    .block {
-      padding:40px;
-      border-radius:20px;
-      box-shadow:0 0 40px rgba(0,0,0,0.05);
-      opacity:0;
-      animation:popIn 1s ease forwards;
-      background:linear-gradient(135deg, #e2e2e2, #cfcfcf 65%, #e9fff5 100%);
-      position:relative;
+    .hero-bg-text {
+      position: absolute;
+      font-family: 'Bebas Neue', 'Arial Black', Impact, sans-serif;
+      font-size: clamp(160px, 22vw, 340px);
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(168,230,176,0.08);
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 0.05em;
+      animation: glitch-drift 18s ease-in-out infinite;
     }
 
-    /* Responsive offsets using vw */
-    .about-block { left:-6vw; }
-    .music-block { right:-7vw; }
-    .whatsup-block { left:-5vw; }
-    .socials-block { right:-6vw; }
-    .contact-block { top:-2vw; }
-
-    /* Pop-in animation */
-    @keyframes popIn {
-      0% { opacity:0; transform:scale(0.95) translateY(20px); }
-      100% { opacity:1; transform:scale(1) translateY(0); }
+    @keyframes glitch-drift {
+      0%, 100% { transform: translate(-50%, -50%) skewX(0deg); }
+      25% { transform: translate(-50.5%, -49.5%) skewX(-0.5deg); }
+      50% { transform: translate(-49.5%, -50.5%) skewX(0.3deg); }
+      75% { transform: translate(-50%, -49.8%) skewX(-0.2deg); }
     }
 
-    /* Social Hub */
-    .social-list {
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:22px;
-      margin-top:30px;
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
     }
 
-    .social-item {
-      display:flex;
-      align-items:center;
-      gap:14px;
-      font-size:1.2rem;
-      font-weight:600;
-      opacity:0.85;
-      transition:0.2s;
+    .hero-title {
+      font-family: 'Bebas Neue', 'Arial Black', Impact, sans-serif;
+      font-size: clamp(96px, 15vw, 220px);
+      line-height: 0.88;
+      letter-spacing: -0.01em;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
     }
 
-    .social-item svg {
-      width:28px;
-      height:28px;
-      stroke:#000;
-      stroke-width:2;
-      fill:none;
+    .hero-title span {
+      display: block;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      -webkit-text-stroke: 0px;
+      position: relative;
+      filter:
+        drop-shadow(1px 1px 0px rgba(160, 110, 10, 0.7))
+        drop-shadow(3px 3px 0px rgba(100, 65, 0, 0.45))
+        drop-shadow(5px 6px 10px rgba(0, 0, 0, 0.3));
     }
 
-    .social-item a {
-      text-decoration:none;
-      color:#1a1a1a;
+    .hero-title span::after {
+      content: 'BR\00D6KI';
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.3;
+      z-index: -1;
+      animation: glitch 4s infinite;
     }
 
-    .social-item:hover {
-      opacity:1;
-      transform:translateY(-2px);
+    @keyframes glitch {
+      0%, 92%, 100% { clip-path: inset(100% 0 0 0); transform: translate(0); }
+      93% { clip-path: inset(20% 0 50% 0); transform: translate(-4px, 2px); }
+      95% { clip-path: inset(60% 0 10% 0); transform: translate(4px, -2px); }
+      97% { clip-path: inset(40% 0 30% 0); transform: translate(-3px, 3px); }
     }
+
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: clamp(1rem, 2.2vw, 1.4rem);
+      color: var(--muted);
+      margin-top: 28px;
+      max-width: 420px;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 48px;
+      right: 48px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 1s 1.2s forwards;
+    }
+
+    .hero-scroll::before {
+      content: '';
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--acid));
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    .hero-corner {
+      position: absolute;
+      bottom: 48px;
+      left: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+    }
+
+    .hero-corner a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--white);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(240,237,230,0.2);
+      padding: 12px 22px;
+      border-radius: 2px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .hero-corner a:hover {
+      background: linear-gradient(120deg, #e8f5a3, #a8e6b0);
+      border-color: #a8e6b0;
+      color: var(--black);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .marquee-wrap {
+      border-top: 1px solid var(--mid);
+      border-bottom: 1px solid var(--mid);
+      overflow: hidden;
+      padding: 18px 0;
+      background: var(--grey);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 60px;
+      white-space: nowrap;
+      animation: marquee 18s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-item {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .marquee-item .dot {
+      width: 6px; height: 6px;
+      background: var(--acid);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 140px 48px;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 60px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: var(--acid);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 7vw, 90px);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+    }
+
+    .about-body {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #aaa;
+      padding-top: 12px;
+    }
+
+    .about-body strong { color: var(--white); }
+
+    .about-stat-row {
+      display: flex;
+      gap: 48px;
+      margin-top: 60px;
+    }
+
+    .stat { border-top: 1px solid var(--mid); padding-top: 20px; }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--acid);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .divider {
+      width: calc(100% - 96px);
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--mid), transparent);
+      margin: 0 48px;
+    }
+
+    .music-section {
+      background: var(--grey);
+      padding: 120px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .music-section::before {
+      content: 'MUSIC';
+      position: absolute;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22vw;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(168,230,176,0.05);
+      right: -2vw;
+      bottom: -3vw;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .music-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .music-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 7vw, 90px);
+      margin-bottom: 48px;
+      line-height: 0.9;
+    }
+
+    .spotify-wrap {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      border: 1px solid var(--mid);
+    }
+
+    .updates-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 20px;
+    }
+
+    .update-card {
+      background: var(--grey);
+      padding: 48px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+      cursor: default;
+    }
+
+    .update-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: linear-gradient(90deg, #e8f5a3, #a8e6b0);
+      transition: width 0.4s ease;
+    }
+
+    .update-card:hover { background: #222; }
+    .update-card:hover::after { width: 100%; }
+
+    .update-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .update-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
+    }
+
+    .update-body {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .update-num {
+      position: absolute;
+      top: 24px; right: 28px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: rgba(200,255,0,0.05);
+      line-height: 1;
+    }
+
+    .socials-section {
+      padding: 140px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .socials-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 7vw, 90px);
+      line-height: 0.9;
+      margin-bottom: 64px;
+    }
+
+    .social-links { display: flex; flex-direction: column; gap: 0; }
+
+    .social-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 0;
+      border-top: 1px solid var(--mid);
+      text-decoration: none;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      transition: color 0.2s;
+    }
+
+    .social-row:last-child { border-bottom: 1px solid var(--mid); }
+
+    .social-row::before {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 0;
+      background: linear-gradient(120deg, #e8f5a3, #a8e6b0);
+      z-index: 0;
+      transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .social-row:hover::before { height: 100%; }
+    .social-row:hover { color: var(--black); }
+    .social-row > * { position: relative; z-index: 1; }
+
+    .social-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(28px, 4vw, 52px);
+      letter-spacing: 0.05em;
+    }
+
+    .social-handle {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      opacity: 0.5;
+    }
+
+    .social-arrow { font-size: 1.8rem; transition: transform 0.3s; }
+    .social-row:hover .social-arrow { transform: translate(6px, -6px); }
+
+    .contact-section {
+      background: linear-gradient(135deg, #e8f5a3 0%, #a8e6b0 100%);
+      padding: 120px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-section::before {
+      content: 'HI';
+      position: absolute;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 45vw;
+      color: rgba(0,0,0,0.05);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .contact-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.5);
+      margin-bottom: 32px;
+    }
+
+    .contact-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 9vw, 130px);
+      color: var(--black);
+      line-height: 0.9;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      color: var(--black);
+      text-decoration: none;
+      border: 2px solid var(--black);
+      padding: 18px 36px;
+      border-radius: 2px;
+      position: relative;
+      z-index: 1;
+      transition: background 0.2s, color 0.2s;
+      letter-spacing: 0.06em;
+    }
+
+    .contact-email:hover { background: var(--black); color: #a8e6b0; }
 
     footer {
-      text-align:center;
-      padding:60px 20px;
-      color:#777;
-      font-size:0.9rem;
+      padding: 40px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--mid);
+      background: var(--black);
     }
 
-    /* Optional tiny-screen refinement */
-    @media (max-width: 400px) {
-      .about-block,
-      .music-block,
-      .whatsup-block,
-      .socials-block,
-      .contact-block {
-        left:-3vw !important;
-        right:-3vw !important;
-        top:-1vw !important;
-      }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      color: var(--white);
+    }
+
+    .footer-copy {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .footer-acid {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--acid);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 0 24px; }
+      .hero-scroll { display: none; }
+      .hero-corner { left: 24px; bottom: 24px; }
+      .section { padding: 80px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-stat-row { gap: 24px; }
+      .music-section { padding: 80px 24px; }
+      .updates-grid { grid-template-columns: 1fr; }
+      .socials-section { padding: 80px 24px; }
+      .contact-section { padding: 80px 24px; }
+      footer { padding: 28px 24px; flex-direction: column; gap: 12px; text-align: center; }
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <div class="blob"></div>
-  <div class="blob"></div>
-  <div class="blob"></div>
-
-  <h1>BRÖKI</h1>
-  <h2>where chaos meets music</h2>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
   <nav>
-    <a href="#about">about</a>
-    <a href="#music">music</a>
-    <a href="#whatsup">what is going on</a>
-    <a href="press.html">press</a>
-    <a href="#contact">contact</a>
+    <a href="#" class="nav-logo">BR&Ouml;KI</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#music">Music</a></li>
+      <li><a href="#updates">Updates</a></li>
+      <li><a href="#socials">Socials</a></li>
+      <li><a href="press.html">Press</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
   </nav>
-</header>
 
-<section id="about">
-  <div class="block about-block">
-    <h3>about</h3>
-    <p>
-      bröki is something..different. started in an apartment far away and travelled trough space and time just to bring you something new.
-    </p>
-  </div>
-</section>
+  <section class="hero">
+    <div class="hero-bg-text">BR&Ouml;KI</div>
+    <p class="hero-eyebrow">Budapest · 2024 · Independent</p>
+    <h1 class="hero-title">
+      <span>BR&Ouml;KI</span>
+    </h1>
+    <p class="hero-sub">where chaos meets music — started in an apartment, travelling through space and time to bring you something new.</p>
+    <div class="hero-corner">
+      <a href="https://open.spotify.com/artist/1D2uEdbO5kgI8HNL566LTo" target="_blank">&#9654;&nbsp; Listen on Spotify</a>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
 
-<section id="music">
-  <div class="block music-block">
-    <h3>music</h3>
-
-    <iframe 
-      src="https://open.spotify.com/embed/artist/1D2uEdbO5kgI8HNL566LTo"
-      width="100%" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media">
-    </iframe>
-  </div>
-</section>
-
-<section id="whatsup">
-  <div class="block whatsup-block">
-    <h3>what is going on</h3>
-
-    <p><strong>new album coming soon</strong> — bangers in progress</p>
-    <p><strong>studio sessions</strong> — if you want the full experience, you can contact us</p>
-    <p><strong>visual concept</strong> — building the bröki world</p>
-  </div>
-</section>
-
-<section id="socials">
-  <div class="block socials-block">
-    <h3 style="text-align:center;">find broeki online</h3>
-
-    <div class="social-list">
-
-      <!-- Instagram -->
-      <div class="social-item">
-        <svg viewBox="0 0 24 24">
-          <rect x="3" y="3" width="18" height="18" rx="5"></rect>
-          <circle cx="12" cy="12" r="4"></circle>
-          <circle cx="17" cy="7" r="1.2"></circle>
-        </svg>
-        <a href="https://www.instagram.com/broekimusic_hun/" target="_blank">@broekimusic_hun</a>
-      </div>
-
-      <!-- YouTube -->
-      <div class="social-item">
-        <svg viewBox="0 0 24 24">
-          <rect x="3" y="7" width="18" height="10" rx="3"></rect>
-          <polygon points="10,9 16,12 10,15"></polygon>
-        </svg>
-        <a href="https://www.youtube.com/@broki-cp3is" target="_blank">YouTube</a>
-      </div>
-
-      <!-- TikTok -->
-      <div class="social-item">
-        <svg viewBox="0 0 24 24">
-          <path d="M9 7v10a4 4 0 1 0 4-4h-1"></path>
-          <path d="M14 4a4 4 0 0 0 4 4"></path>
-        </svg>
-        <a href="https://www.tiktok.com/@broekimusic_hun" target="_blank">@broekimusic_hun</a>
-      </div>
-
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item"><span class="dot"></span> chaos in motion <span class="dot"></span> new album coming <span class="dot"></span> studio sessions <span class="dot"></span> Budapest underground <span class="dot"></span> broeki music <span class="dot"></span> chaos in motion <span class="dot"></span> new album coming <span class="dot"></span> studio sessions <span class="dot"></span> Budapest underground <span class="dot"></span> broeki music</div>
+      <div class="marquee-item"><span class="dot"></span> chaos in motion <span class="dot"></span> new album coming <span class="dot"></span> studio sessions <span class="dot"></span> Budapest underground <span class="dot"></span> broeki music <span class="dot"></span> chaos in motion <span class="dot"></span> new album coming <span class="dot"></span> studio sessions <span class="dot"></span> Budapest underground <span class="dot"></span> broeki music</div>
     </div>
   </div>
-</section>
 
-<section id="contact">
-  <div class="block contact-block">
-    <h3>contact</h3>
-    <p>For booking, press, or collaborations:</p>
-    <p><strong>broekimusic@gmail.com</strong></p>
+  <section class="section" id="about">
+    <p class="section-label reveal">01 &mdash; About</p>
+    <div class="about-grid">
+      <div class="reveal">
+        <h2 class="about-title">Something<br>Different.</h2>
+        <div class="about-stat-row">
+          <div class="stat">
+            <span class="stat-num">&infin;</span>
+            <span class="stat-label">Dimensions</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">1</span>
+            <span class="stat-label">Apartment Origin</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">0</span>
+            <span class="stat-label">Compromises</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-body reveal">
+        <p><strong>Br&ouml;ki is something different.</strong> Started in an apartment far away and travelled through space and time just to bring you something new.</p>
+        <br>
+        <p>This isn't background music. This isn't for playlists curated by an algorithm. This is for the moment right before everything changes — built on chaos, shaped by intention.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <div class="music-section" id="music">
+    <div class="music-inner">
+      <p class="section-label reveal" style="color: var(--acid);">02 &mdash; Music</p>
+      <h2 class="music-title reveal">Stream<br>&amp; Listen.</h2>
+      <div class="spotify-wrap reveal">
+        <iframe
+          src="https://open.spotify.com/embed/artist/1D2uEdbO5kgI8HNL566LTo"
+          width="100%" height="400" frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy" style="display:block;">
+        </iframe>
+      </div>
+    </div>
   </div>
-</section>
 
-<footer>
-  © bröki — chaos in motion
-</footer>
+  <section class="section" id="updates">
+    <p class="section-label reveal">03 &mdash; What is going on</p>
+    <div class="updates-grid">
+      <div class="update-card reveal">
+        <span class="update-num">01</span>
+        <span class="update-tag">Release</span>
+        <div class="update-headline">New Album<br>Coming Soon</div>
+        <p class="update-body">Bangers in progress. Stay tuned for something that will shift your perspective.</p>
+      </div>
+      <div class="update-card reveal" style="transition-delay: 0.1s">
+        <span class="update-num">02</span>
+        <span class="update-tag">Studio</span>
+        <div class="update-headline">Live Studio<br>Sessions</div>
+        <p class="update-body">Want the full experience? Get in touch and we'll bring you into the world of Br&ouml;ki.</p>
+      </div>
+      <div class="update-card reveal" style="transition-delay: 0.2s">
+        <span class="update-num">03</span>
+        <span class="update-tag">Visual</span>
+        <div class="update-headline">Building<br>The World</div>
+        <p class="update-body">The visual concept is expanding. The Br&ouml;ki universe is being constructed piece by piece.</p>
+      </div>
+    </div>
+  </section>
 
+  <div class="socials-section" id="socials">
+    <p class="section-label reveal">04 &mdash; Find us</p>
+    <h2 class="socials-title reveal">Find Br&ouml;ki<br>Online.</h2>
+    <div class="social-links">
+      <a href="https://www.instagram.com/broekimusic_hun/" target="_blank" class="social-row reveal">
+        <div class="social-name">Instagram</div>
+        <div class="social-handle">@broekimusic_hun</div>
+        <div class="social-arrow">&#8599;</div>
+      </a>
+      <a href="https://www.youtube.com/@broki-cp3is" target="_blank" class="social-row reveal">
+        <div class="social-name">YouTube</div>
+        <div class="social-handle">@broki-cp3is</div>
+        <div class="social-arrow">&#8599;</div>
+      </a>
+      <a href="https://www.tiktok.com/@broekimusic_hun" target="_blank" class="social-row reveal">
+        <div class="social-name">TikTok</div>
+        <div class="social-handle">@broekimusic_hun</div>
+        <div class="social-arrow">&#8599;</div>
+      </a>
+      <a href="https://open.spotify.com/artist/1D2uEdbO5kgI8HNL566LTo" target="_blank" class="social-row reveal">
+        <div class="social-name">Spotify</div>
+        <div class="social-handle">BR&Ouml;KI</div>
+        <div class="social-arrow">&#8599;</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="contact-section" id="contact">
+    <p class="contact-label">05 &mdash; Contact</p>
+    <h2 class="contact-title">Let's<br>Talk.</h2>
+    <a class="contact-email" href="mailto:broekimusic@gmail.com">&#9993;&nbsp; broekimusic@gmail.com</a>
+    <p style="margin-top:32px; font-family:'Space Mono',monospace; font-size:0.72rem; color:rgba(0,0,0,0.4); letter-spacing:0.12em; position:relative; z-index:1;">
+      BOOKING &middot; PRESS &middot; COLLABORATIONS
+    </p>
+  </div>
+
+  <footer>
+    <div class="footer-logo">BR&Ouml;KI</div>
+    <div class="footer-copy">&copy; 2024 BR&Ouml;KI &mdash; ALL RIGHTS RESERVED</div>
+    <div class="footer-acid">CHAOS IN MOTION</div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '20px';
+        cursor.style.height = '20px';
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+        ring.style.opacity = '0.3';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '12px';
+        cursor.style.height = '12px';
+        ring.style.width = '40px';
+        ring.style.height = '40px';
+        ring.style.opacity = '0.5';
+      });
+    });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
